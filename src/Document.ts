@@ -1,6 +1,8 @@
 export interface Document {
     ordersNumber: string;
+    ordersDate: string;
     contractNumber: string;
+    contractDate: string;
     goodItems: GoodItem[];
 }
 

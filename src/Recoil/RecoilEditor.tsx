@@ -1,3 +1,4 @@
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import Button from "@skbkontur/react-ui/Button";
 import React from "react";
 import { atom, useRecoilCallback, RecoilState, useRecoilState } from "recoil/dist";
@@ -12,8 +13,16 @@ export const documentAtoms: Atoms = {
         key: "ordersNumber",
         default: "",
     }),
+    ordersDate: atom({
+        key: "ordersDate",
+        default: "",
+    }),
     contractNumber: atom({
         key: "contractNumber",
+        default: "",
+    }),
+    contractDate: atom({
+        key: "contractDate",
         default: "",
     }),
     "goodItems.length": atom({
@@ -27,7 +36,9 @@ export function RecoilEditor(): JSX.Element {
 
     const handleSave = useRecoilCallback(({ snapshot }) => async () => {
         const ordersNumber = await snapshot.getPromise(documentAtoms["ordersNumber"]);
+        const ordersDate = await snapshot.getPromise(documentAtoms["ordersDate"]);
         const contractNumber = await snapshot.getPromise(documentAtoms["contractNumber"]);
+        const contractDate = await snapshot.getPromise(documentAtoms["contractDate"]);
         const goodItemsLength = await snapshot.getPromise(documentAtoms["goodItems.length"]);
         const newGoodItems = [];
         for (let i = 0; i < goodItemsLength; i++) {
@@ -35,14 +46,16 @@ export function RecoilEditor(): JSX.Element {
         }
         console.info({
             ordersNumber: ordersNumber,
+            ordersDate: ordersDate,
             contractNumber: contractNumber,
+            contractDate: contractDate,
             goodItems: newGoodItems,
         });
     });
 
     React.useEffect(() => {
         if (goodItemsLength === 0) {
-            const length = 200;
+            const length = 1000;
             for (let i = 0; i < length; i++) {
                 const key = `goodItems.${i}`;
                 if (documentAtoms[key]) {
@@ -66,9 +79,11 @@ export function RecoilEditor(): JSX.Element {
 
     return (
         <div>
-            <EditorHeader />
-            <EditorItems />
-            <Button onClick={handleSave}>Save</Button>
+            <ValidationContainer>
+                <EditorHeader />
+                <EditorItems />
+                <Button onClick={handleSave}>Save</Button>
+            </ValidationContainer>
         </div>
     );
 }

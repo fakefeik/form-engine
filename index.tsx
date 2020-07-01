@@ -8,7 +8,7 @@ import { Editor } from "./src/Editor/Editor";
 import { RecoilEditor } from "./src/Recoil/RecoilEditor";
 
 function AdminToolsEntryPoint() {
-    const [recoil, setRecoil] = React.useState(false);
+    const [recoil, setRecoil] = React.useState(true);
 
     return (
         <>

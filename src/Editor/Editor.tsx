@@ -21,7 +21,7 @@ export class Editor extends React.Component<{}, EditorState> {
 
     public componentDidMount(): void {
         const goodItems = [];
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 1000; i++) {
             goodItems.push({
                 name: `item${i}`,
                 quantity: String(i),
