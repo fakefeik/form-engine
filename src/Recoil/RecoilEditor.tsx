@@ -1,55 +1,73 @@
 import Button from "@skbkontur/react-ui/Button";
 import React from "react";
-import { atom, useRecoilCallback } from "recoil/dist";
-
-import { GoodItem } from "../Document";
-import { EditorItems } from "../Editor/EditorItems";
+import { atom, useRecoilCallback, RecoilState, useRecoilState } from "recoil/dist";
 
 import { EditorHeader } from "./EditorHeader";
+import { EditorItems } from "./EditorItems";
 
-export const ordersNumberAtom = atom({
-    key: "ordersNumber",
-    default: "",
-});
+type Atoms = { [key: string]: RecoilState<any> };
 
-export const contractNumberAtom = atom({
-    key: "contractNumber",
-    default: "",
-});
+export const documentAtoms: Atoms = {
+    ordersNumber: atom({
+        key: "ordersNumber",
+        default: "",
+    }),
+    contractNumber: atom({
+        key: "contractNumber",
+        default: "",
+    }),
+    "goodItems.length": atom({
+        key: "goodItems.length",
+        default: 0,
+    }),
+};
 
 export function RecoilEditor(): JSX.Element {
-    const [goodItems, setGoodItems] = React.useState([] as GoodItem[]);
+    const [goodItemsLength, setGoodItemsLength] = useRecoilState(documentAtoms["goodItems.length"]);
 
     const handleSave = useRecoilCallback(({ snapshot }) => async () => {
-        const ordersNumber = await snapshot.getPromise(ordersNumberAtom);
-        const contractNumber = await snapshot.getPromise(contractNumberAtom);
+        const ordersNumber = await snapshot.getPromise(documentAtoms["ordersNumber"]);
+        const contractNumber = await snapshot.getPromise(documentAtoms["contractNumber"]);
+        const goodItemsLength = await snapshot.getPromise(documentAtoms["goodItems.length"]);
+        const newGoodItems = [];
+        for (let i = 0; i < goodItemsLength; i++) {
+            newGoodItems.push(await snapshot.getPromise(documentAtoms[`goodItems.${i}`]));
+        }
         console.info({
             ordersNumber: ordersNumber,
             contractNumber: contractNumber,
-            goodItems: goodItems,
+            goodItems: newGoodItems,
         });
     });
 
     React.useEffect(() => {
-        if (goodItems.length === 0) {
-            const newGoodItems = [];
-            for (let i = 0; i < 200; i++) {
-                newGoodItems.push({
-                    name: `item${i}`,
-                    quantity: String(i),
-                    price: "10",
-                    priceWithVat: "11",
-                    vatSummary: "1",
+        if (goodItemsLength === 0) {
+            const length = 200;
+            for (let i = 0; i < length; i++) {
+                const key = `goodItems.${i}`;
+                if (documentAtoms[key]) {
+                    continue;
+                }
+                documentAtoms[`goodItems.${i}`] = atom({
+                    key: `goodItems.${i}`,
+                    default: {
+                        name: `item${i}`,
+                        quantity: String(i),
+                        price: "10",
+                        priceWithVat: "11",
+                        vatSummary: "1",
+                    },
                 });
             }
-            setGoodItems(newGoodItems);
+            console.info(goodItemsLength);
+            setGoodItemsLength(length);
         }
     });
 
     return (
         <div>
             <EditorHeader />
-            <EditorItems goodItems={goodItems} onChange={setGoodItems} />
+            <EditorItems />
             <Button onClick={handleSave}>Save</Button>
         </div>
     );

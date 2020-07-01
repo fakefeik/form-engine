@@ -2,11 +2,11 @@ import Input from "@skbkontur/react-ui/Input";
 import React from "react";
 import { useRecoilState } from "recoil/dist";
 
-import { contractNumberAtom, ordersNumberAtom } from "./RecoilEditor";
+import { documentAtoms } from "./RecoilEditor";
 
 export function EditorHeader(): JSX.Element {
-    const [ordersNumber, setOrdersNumber] = useRecoilState(ordersNumberAtom);
-    const [contractNumber, setContractNumber] = useRecoilState(contractNumberAtom);
+    const [ordersNumber, setOrdersNumber] = useRecoilState(documentAtoms["ordersNumber"]);
+    const [contractNumber, setContractNumber] = useRecoilState(documentAtoms["contractNumber"]);
 
     return (
         <table>
