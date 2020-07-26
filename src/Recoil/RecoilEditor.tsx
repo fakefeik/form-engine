@@ -1,7 +1,7 @@
 import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import Button from "@skbkontur/react-ui/Button";
 import React from "react";
-import { atom, useRecoilCallback, RecoilState, useRecoilState } from "recoil/dist";
+import { atom, useRecoilCallback, RecoilState, useRecoilState, RecoilRoot } from "recoil/dist";
 
 import { EditorHeader } from "./EditorHeader";
 import { EditorItems } from "./EditorItems";
@@ -31,7 +31,7 @@ export const documentAtoms: Atoms = {
     }),
 };
 
-export function RecoilEditor(): JSX.Element {
+function RecoilEditorInternal() {
     const [goodItemsLength, setGoodItemsLength] = useRecoilState(documentAtoms["goodItems.length"]);
 
     const handleSave = useRecoilCallback(({ snapshot }) => async () => {
@@ -85,5 +85,13 @@ export function RecoilEditor(): JSX.Element {
                 <Button onClick={handleSave}>Save</Button>
             </ValidationContainer>
         </div>
+    );
+}
+
+export function RecoilEditor(): JSX.Element {
+    return (
+        <RecoilRoot>
+            <RecoilEditorInternal />
+        </RecoilRoot>
     );
 }

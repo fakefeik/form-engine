@@ -1,11 +1,11 @@
-import Input from "@skbkontur/react-ui/Input";
 import React from "react";
 
+import { NumberInput, DateInput } from "../Controls";
 import { Document } from "../Document";
 
 interface EditorHeaderProps {
     document: Document;
-    onChange: (ordersNumber: string, contractNumber: string) => void;
+    onChange: (ordersNumber: string, ordersDate: string, contractNumber: string, contractDate: string) => void;
 }
 
 export function EditorHeader({ document, onChange }: EditorHeaderProps): JSX.Element {
@@ -14,18 +14,44 @@ export function EditorHeader({ document, onChange }: EditorHeaderProps): JSX.Ele
             <tr>
                 <td>Orders Number</td>
                 <td>
-                    <Input
+                    <NumberInput
                         value={document.ordersNumber}
-                        onChange={(_, value) => onChange(value, document.contractNumber)}
+                        dependencies={[document.ordersDate]}
+                        onChange={value =>
+                            onChange(value, document.ordersDate, document.contractNumber, document.contractDate)
+                        }
+                    />
+                </td>
+                <td>Orders Date</td>
+                <td>
+                    <DateInput
+                        value={document.ordersDate}
+                        dependencies={[document.ordersNumber]}
+                        onChange={value =>
+                            onChange(document.ordersNumber, value, document.contractNumber, document.contractDate)
+                        }
                     />
                 </td>
             </tr>
             <tr>
                 <td>Contract Number</td>
                 <td>
-                    <Input
+                    <NumberInput
                         value={document.contractNumber}
-                        onChange={(_, value) => onChange(document.ordersNumber, value)}
+                        dependencies={[]}
+                        onChange={value =>
+                            onChange(document.ordersNumber, document.ordersDate, value, document.contractDate)
+                        }
+                    />
+                </td>
+                <td>Contract Date</td>
+                <td>
+                    <DateInput
+                        value={document.contractDate}
+                        dependencies={[]}
+                        onChange={value =>
+                            onChange(document.ordersNumber, document.ordersDate, document.contractNumber, value)
+                        }
                     />
                 </td>
             </tr>

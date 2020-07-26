@@ -15,6 +15,8 @@ export class Editor extends React.Component<{}, EditorState> {
         document: {
             contractNumber: "",
             ordersNumber: "",
+            contractDate: "",
+            ordersDate: "",
             goodItems: [],
         },
     };
@@ -35,6 +37,8 @@ export class Editor extends React.Component<{}, EditorState> {
             document: {
                 ordersNumber: "1",
                 contractNumber: "123",
+                contractDate: "",
+                ordersDate: "",
                 goodItems: goodItems,
             },
         });
@@ -50,12 +54,19 @@ export class Editor extends React.Component<{}, EditorState> {
         );
     }
 
-    private readonly handleChangeDocument = (ordersNumber: string, contractNumber: string) => {
+    private readonly handleChangeDocument = (
+        ordersNumber: string,
+        ordersDate: string,
+        contractNumber: string,
+        contractDate: string
+    ) => {
         this.setState(state => ({
             document: {
                 ...state.document,
                 ordersNumber: ordersNumber,
+                ordersDate: ordersDate,
                 contractNumber: contractNumber,
+                contractDate: contractDate,
             },
         }));
     };
