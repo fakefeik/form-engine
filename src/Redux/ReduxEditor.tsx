@@ -1,7 +1,10 @@
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import Button from "@skbkontur/react-ui/Button";
 import React from "react";
 import { batch, Provider } from "react-redux";
 import { createStore } from "redux";
+
+import { GOOD_ITEMS_COUNT } from "../Document";
 
 import { EditorHeader } from "./EditorHeader";
 import { EditorItems } from "./EditorItems";
@@ -32,7 +35,7 @@ class ReduxEditorInternal extends React.Component {
             store.dispatch(change("ordersNumber", ""));
             store.dispatch(change("contractDate", ""));
             store.dispatch(change("ordersDate", ""));
-            for (let i = 0; i < 1000; i++) {
+            for (let i = 0; i < GOOD_ITEMS_COUNT; i++) {
                 store.dispatch(
                     change(`goodItems.${i}`, {
                         name: `item${i}`,
@@ -43,16 +46,18 @@ class ReduxEditorInternal extends React.Component {
                     })
                 );
             }
-            store.dispatch(change("goodItems.length", 1000));
+            store.dispatch(change("goodItems.length", GOOD_ITEMS_COUNT));
         });
     }
 
     public render(): JSX.Element {
         return (
             <div>
-                <EditorHeader />
-                <EditorItems />
-                <Button onClick={this.handleSave}>Save</Button>
+                <ValidationContainer>
+                    <EditorHeader />
+                    <EditorItems />
+                    <Button onClick={this.handleSave}>Save</Button>
+                </ValidationContainer>
             </div>
         );
     }

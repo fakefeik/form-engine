@@ -13,3 +13,5 @@ export interface GoodItem {
     priceWithVat: string;
     vatSummary: string;
 }
+
+export const GOOD_ITEMS_COUNT = 10;

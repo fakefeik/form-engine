@@ -1,7 +1,8 @@
+import { ValidationContainer } from "@skbkontur/react-ui-validations";
 import Button from "@skbkontur/react-ui/Button";
 import React from "react";
 
-import { Document, GoodItem } from "../Document";
+import { Document, GOOD_ITEMS_COUNT, GoodItem } from "../Document";
 
 import { EditorHeader } from "./EditorHeader";
 import { EditorItems } from "./EditorItems";
@@ -23,7 +24,7 @@ export class Editor extends React.Component<{}, EditorState> {
 
     public componentDidMount(): void {
         const goodItems = [];
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < GOOD_ITEMS_COUNT; i++) {
             goodItems.push({
                 name: `item${i}`,
                 quantity: String(i),
@@ -47,9 +48,11 @@ export class Editor extends React.Component<{}, EditorState> {
     public render(): JSX.Element {
         return (
             <div>
-                <EditorHeader document={this.state.document} onChange={this.handleChangeDocument} />
-                <EditorItems goodItems={this.state.document.goodItems} onChange={this.handleChangeItems} />
-                <Button onClick={this.handleSave}>Save</Button>
+                <ValidationContainer>
+                    <EditorHeader document={this.state.document} onChange={this.handleChangeDocument} />
+                    <EditorItems goodItems={this.state.document.goodItems} onChange={this.handleChangeItems} />
+                    <Button onClick={this.handleSave}>Save</Button>
+                </ValidationContainer>
             </div>
         );
     }

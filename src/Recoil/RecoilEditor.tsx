@@ -5,6 +5,7 @@ import { atom, useRecoilCallback, RecoilState, useRecoilState, RecoilRoot } from
 
 import { EditorHeader } from "./EditorHeader";
 import { EditorItems } from "./EditorItems";
+import { GOOD_ITEMS_COUNT } from "../Document";
 
 type Atoms = { [key: string]: RecoilState<any> };
 
@@ -55,8 +56,7 @@ function RecoilEditorInternal() {
 
     React.useEffect(() => {
         if (goodItemsLength === 0) {
-            const length = 1000;
-            for (let i = 0; i < length; i++) {
+            for (let i = 0; i < GOOD_ITEMS_COUNT; i++) {
                 const key = `goodItems.${i}`;
                 if (documentAtoms[key]) {
                     continue;
@@ -73,7 +73,7 @@ function RecoilEditorInternal() {
                 });
             }
             console.info(goodItemsLength);
-            setGoodItemsLength(length);
+            setGoodItemsLength(GOOD_ITEMS_COUNT);
         }
     });
 
