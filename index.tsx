@@ -6,17 +6,20 @@ import { hot } from "react-hot-loader";
 import { Editor } from "./src/Editor/Editor";
 import { RecoilEditor } from "./src/Recoil/RecoilEditor";
 import { ReduxEditor } from "./src/Redux/ReduxEditor";
+import { EffectorEditor } from "./src/Effector/EffectorEditor";
 
 const items = [
     ["React", "React"],
     ["Recoil", "Recoil"],
     ["Redux", "Redux"],
+    ["Effector", "Effector"],
 ];
 
 const renderItems = {
     React: <Editor />,
     Recoil: <RecoilEditor />,
     Redux: <ReduxEditor />,
+    Effector: <EffectorEditor />,
 };
 
 function AdminToolsEntryPoint() {
