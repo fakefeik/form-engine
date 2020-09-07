@@ -20,7 +20,7 @@ function isNullOrWhitespace(x: Nullable<string>): boolean {
     return x == null ? true : x.trim() === "";
 }
 
-export function NumberInput({ value, dependencies, onChange }: InputInternalProps): JSX.Element {
+export function NumberInput({ value, onChange, dependencies }: InputInternalProps): JSX.Element {
     console.info(dependencies);
     const validation: Nullable<ValidationInfo> =
         !isNullOrWhitespace(value) || dependencies.length === 0 || dependencies.some(x => isNullOrWhitespace(x))
@@ -37,7 +37,7 @@ export function NumberInput({ value, dependencies, onChange }: InputInternalProp
     );
 }
 
-export function DateInput({ value, dependencies, onChange }: InputInternalProps): JSX.Element {
+export function DateInput({ value, onChange, dependencies }: InputInternalProps): JSX.Element {
     console.info(dependencies);
     return <DatePicker value={value} onChange={(_, value) => onChange(value)} />;
 }

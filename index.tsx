@@ -4,9 +4,9 @@ import ReactDom from "react-dom";
 import { hot } from "react-hot-loader";
 
 import { Editor } from "./src/Editor/Editor";
+import { EffectorEditor } from "./src/Effector/EffectorEditor";
 import { RecoilEditor } from "./src/Recoil/RecoilEditor";
 import { ReduxEditor } from "./src/Redux/ReduxEditor";
-import { EffectorEditor } from "./src/Effector/EffectorEditor";
 
 const items = [
     ["React", "React"],

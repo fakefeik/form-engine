@@ -36,12 +36,32 @@ export function EditorHeader(): JSX.Element {
 
 const mapStateToProps = (state: any, ownProps: InputProps) => ({
     value: state[ownProps.path],
-    dependencies: ownProps.deps.map(x => state[x]),
+    ...Object.fromEntries(ownProps.deps.map(x => [x, state[x]])),
 });
 
 const mapDispatchToProps = (dispatch: any, ownProps: InputProps) => ({
     onChange: (value: string) => dispatch(change(ownProps.path, value)),
 });
 
-const NumberInputRedux = connect(mapStateToProps, mapDispatchToProps)(NumberInput);
-const DateInputRedux = connect(mapStateToProps, mapDispatchToProps)(DateInput);
+const NumberInputRedux = connect(mapStateToProps, mapDispatchToProps)(NumberInputWrapper);
+const DateInputRedux = connect(mapStateToProps, mapDispatchToProps)(DateInputWrapper);
+
+function NumberInputWrapper({ value, onChange, deps, path, ...dependencies }: any): JSX.Element {
+    return (
+        <NumberInput
+            value={value}
+            onChange={onChange}
+            dependencies={Object.keys(dependencies).map(x => dependencies[x])}
+        />
+    );
+}
+
+function DateInputWrapper({ value, onChange, deps, path, ...dependencies }: any): JSX.Element {
+    return (
+        <DateInput
+            value={value}
+            onChange={onChange}
+            dependencies={Object.keys(dependencies).map(x => dependencies[x])}
+        />
+    );
+}
